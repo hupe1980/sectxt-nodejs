@@ -1,0 +1,2 @@
+# sectxt-nodejs
+Security.txt
