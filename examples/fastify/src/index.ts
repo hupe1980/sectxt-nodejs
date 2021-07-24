@@ -10,7 +10,7 @@ const server = fastify();
 
 const securityTxt = new SecurityTxt({
   contacts: ["mailto:security@example.org"],
-  expires: new Date("9999-12-31"),
+  expires: new Date("2022-12-31"),
   preferredLanguages: ["en", "de"],
   hiring: ["https://secjobs.example.org"],
 });

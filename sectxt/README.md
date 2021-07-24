@@ -17,7 +17,7 @@ import { SecurityTxt } from "sectxt";
 
 const securityTxt = new SecurityTxt({
     contacts: ["mailto:security@example.org"],
-    expires: new Date("9999-12-31"),
+    expires: new Date("2022-12-31"),
     preferredLanguages: ["en", "de"],
     hiring: ["https://secjobs.example.org"],
 });
@@ -27,7 +27,7 @@ console.log(securityTxt.render());
 outputs:
 ```txt
 Contact: mailto:security@example.org
-Expires: 2019-01-16T00:00:00.000Z
+Expires: 2022-12-31T00:00:00.000Z
 Preferred-Languages: en, de
 Hiring: https://secjobs.example.org
 ```
@@ -67,7 +67,7 @@ const app = express();
 app.use(
   sectxt({
     contacts: ["mailto:security@example.org"],
-    expires: new Date("9999-12-31"),
+    expires: new Date("2022-12-31"),
     preferredLanguages: ["en", "de"],
     hiring: ["https://secjobs.example.org"],
   })
