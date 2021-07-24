@@ -1,7 +1,9 @@
 import express from "express";
 import request from "supertest";
+import * as openpgp from "openpgp";
 
 import { SecurityTxt } from "../security-txt";
+import { privateKeyArmored, publicKeyArmored } from "./gnupg";
 
 describe("security-txt", () => {
   test("middleware response", async () => {
@@ -20,7 +22,7 @@ describe("security-txt", () => {
     expect(response.headers["content-type"]).toBe(
       securityTxt.headers["content-type"]
     );
-    expect(response.text).toBe(securityTxt.render());
+    expect(response.text).toBe(await securityTxt.render());
   });
 
   test("middleware redirect", async () => {
@@ -40,5 +42,46 @@ describe("security-txt", () => {
 
     expect(redirect.statusCode).toBe(301);
     expect(redirect.headers["location"]).toBe(securityTxt.path);
+  });
+
+  test("sign", async () => {
+    expect.assertions(2);
+
+    const publicKey = await openpgp.readKey({ armoredKey: publicKeyArmored });
+
+    const privateKey = await openpgp.decryptKey({
+      privateKey: await openpgp.readPrivateKey({
+        armoredKey: privateKeyArmored,
+      }),
+      passphrase: "helloworld",
+    });
+
+    const securityTxt = new SecurityTxt({
+      privateKey,
+      contacts: ["mailto:security@example.org"],
+      expires: new Date("2019-01-16"),
+    });
+
+    const unsignedSecurityTxt = new SecurityTxt({
+      contacts: ["mailto:security@example.org"],
+      expires: new Date("2019-01-16"),
+    });
+
+    const signedMessage = await openpgp.readCleartextMessage({
+      cleartextMessage: await securityTxt.render(),
+    });
+
+    const verificationResult = await openpgp.verify({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      message: signedMessage as any,
+      verificationKeys: publicKey,
+    });
+
+    expect(verificationResult.data).toBe(await unsignedSecurityTxt.render());
+
+    const { verified } = verificationResult.signatures[0];
+
+    // throws on invalid signature
+    expect(async () => await verified).not.toThrow();
   });
 });

@@ -1,3 +1,4 @@
+import type { PrivateKey } from "openpgp";
 import { IncomingMessage, ServerResponse } from "http";
 import { Acknowledgments } from "./acknowledgments";
 import { Canonical } from "./canonical";
@@ -17,7 +18,7 @@ export type Middleware = (
   req: IncomingMessage,
   res: ServerResponse,
   next: NextFunction
-) => void;
+) => Promise<void>;
 
 export interface SecurityTxtOptions {
   /**
@@ -29,10 +30,12 @@ export interface SecurityTxtOptions {
   readonly intro?: string;
   readonly outtro?: string;
 
+  readonly privateKey?: PrivateKey;
+
   /**
    * This field indicates an address that researchers should use for
    * reporting security vulnerabilities such as an email address, a phone
-   * number and/or a web page with contact information.  The "Contact"
+   * number and/or a web page with contact information. The "Contact"
    * field MUST always be present in a "security.txt" file.
    */
   readonly contacts: string[];
@@ -45,7 +48,7 @@ export interface SecurityTxtOptions {
 
   /**
    * This field indicates an encryption key that security researchers
-   * should use for encrypted communication.  Keys MUST NOT appear in this
+   * should use for encrypted communication. Keys MUST NOT appear in this
    * field - instead the value of this field MUST be a URI pointing to a
    * location where the key can be retrieved.
    */
@@ -53,7 +56,7 @@ export interface SecurityTxtOptions {
 
   /**
    * This field indicates a link to a page where security researchers are
-   * recognized for their reports.  The page being referenced should list
+   * recognized for their reports. The page being referenced should list
    * security researchers that reported security vulnerabilities and
    * collaborated to remediate them.
    */
@@ -67,8 +70,7 @@ export interface SecurityTxtOptions {
 
   /**
    * This field indicates the canonical URIs where the "security.txt" file
-   * is located, which is usually something like
-   * "https://example.com/.well-known/security.txt".
+   * is located, which is usually something like "https://example.com/.well-known/security.txt".
    */
   readonly canonical?: string[];
 
@@ -91,7 +93,10 @@ export class SecurityTxt {
   public readonly headers: Record<string, string>;
   public readonly pathAlternative?: string;
 
+  private readonly privateKey?: PrivateKey;
   private readonly fields = new Array<Field>();
+
+  private cachedText?: string;
 
   constructor(options: SecurityTxtOptions) {
     this.path = options.path ?? "/.well-known/security.txt";
@@ -100,6 +105,8 @@ export class SecurityTxt {
     };
 
     this.pathAlternative = options.pathAlternative;
+
+    this.privateKey = options.privateKey;
 
     if (options.intro) {
       this.fields.push(new Intro(options.intro));
@@ -147,24 +154,21 @@ export class SecurityTxt {
   }
 
   public middleware(): Middleware {
-    const body = this.render();
-
-    return (req, res, next) => {
+    return async (req, res, next) => {
       // Process get requests only
       if (req.url && req.method && req.method.toLowerCase() === "get") {
         if (this.isPathAlternative(req.url)) {
           res.writeHead(301, {
             Location: this.path,
           });
-          res.end();
-          return;
+          return res.end();
         }
         if (this.match(req.url)) {
+          const body = await this.render();
           res.writeHead(200, {
             ...this.headers,
           });
-          res.end(body);
-          return;
+          return res.end(body);
         }
       }
 
@@ -173,12 +177,35 @@ export class SecurityTxt {
     };
   }
 
-  public render(): string {
+  public async render(): Promise<string> {
+    if (this.cachedText) {
+      return this.cachedText;
+    }
+
     const text = new Array<string>();
     this.fields.forEach((field) => {
       text.push(field.render());
     });
 
-    return text.join("\n");
+    this.cachedText = this.privateKey
+      ? await this.signText(text.join("\n"))
+      : text.join("\n");
+
+    return this.cachedText;
+  }
+
+  private async signText(text: string): Promise<string> {
+    const openpgp = await import("openpgp");
+
+    const message = await openpgp.createCleartextMessage({
+      text,
+    });
+
+    const signedMessage = await openpgp.sign({
+      message,
+      signingKeys: this.privateKey,
+    });
+
+    return signedMessage.toString();
   }
 }

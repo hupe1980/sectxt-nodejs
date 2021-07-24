@@ -22,7 +22,7 @@ const securityTxt = new SecurityTxt({
     hiring: ["https://secjobs.example.org"],
 });
 
-console.log(securityTxt.render());
+console.log(await securityTxt.render());
 ```
 outputs:
 ```txt
@@ -46,7 +46,7 @@ const securityTxt = new SecurityTxt({
     hiring: ["https://secjobs.example.org"],
 });
 
-console.log(securityTxt.render());
+console.log(await securityTxt.render());
 ```
 outputs:
 ```
@@ -55,6 +55,36 @@ Contact: mailto:security@example.org
 Expires: 2019-01-16T00:00:00.000Z
 Preferred-Languages: en, de
 Hiring: https://secjobs.example.org
+```
+
+### Signed security.txt
+```typescript
+const privateKey = await openpgp.decryptKey({
+  privateKey: await openpgp.readPrivateKey({
+    armoredKey: privateKeyArmored,
+  }),
+  passphrase: "helloworld",
+});
+
+const securityTxt = new SecurityTxt({
+  privateKey,
+  contacts: ["mailto:security@example.org"],
+  expires: new Date("2019-01-16"),
+});
+
+console.log(await securityTxt.render());
+```
+outputs:
+```
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+Contact: mailto:security@example.org
+Expires: 2019-01-16T00:00:00.000Z
+-----BEGIN PGP SIGNATURE-----
+
+[signature]
+-----END PGP SIGNATURE-----
 ```
 
 ### Middleware
@@ -82,7 +112,7 @@ app.listen(3000, () => {
 });
 ```
 
-## Gatsby
+### Gatsby
 See [gatsby-plugin-sectxt](https://github.com/hupe1980/sectxt-nodejs/tree/main/packages/gatsby-plugin-sectxt).
 
 ## Examples

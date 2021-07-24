@@ -32,7 +32,7 @@ server.get("/", async (_request, _reply) => {
   return "Hello World!";
 });
 
-server.listen(8080, (err, address) => {
+server.listen(3000, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);

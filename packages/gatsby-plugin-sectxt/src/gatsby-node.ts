@@ -31,7 +31,7 @@ export const onPostBootstrap: GatsbyNode["onPostBootstrap"] = async (
 
   try {
     fs.mkdirSync(path.dirname(writePath), { recursive: true });
-    fs.writeFileSync(writePath, securityTxt.render());
+    fs.writeFileSync(writePath, await securityTxt.render());
   } catch (error) {
     reporter.panic("Unable to create security.txt", error);
   }

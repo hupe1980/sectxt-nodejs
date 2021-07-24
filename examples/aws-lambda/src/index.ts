@@ -12,6 +12,6 @@ export const handler: APIGatewayProxyHandler = async () => {
   return {
     statusCode: 200,
     headers: securityTxt.headers,
-    body: securityTxt.render(),
+    body: await securityTxt.render(),
   };
 };
