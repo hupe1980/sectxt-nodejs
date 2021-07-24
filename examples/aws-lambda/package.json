@@ -1,0 +1,17 @@
+{
+  "name": "aws-lambda",
+  "version": "0.0.1",
+  "private": true,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "rimraf ./lib && tsc && node -e \"require('./lib/index').handler().then(console.log);\""
+  },
+  "dependencies": {
+    "sectxt": "^0.0.1"
+  },
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.80"
+  }
+}

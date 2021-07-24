@@ -1,0 +1,27 @@
+{
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "build": "lerna run build",
+    "test": "lerna exec -- yarn test",
+    "lint": "eslint '*/**/*.ts' --report-unused-disable-directives",
+    "outdated:all": "yarn outdated",
+    "upgrade:all": "yarn upgrade-interactive --latest"
+  },
+  "workspaces": [
+    "examples/*",
+    "sectxt"
+  ],
+  "devDependencies": {
+    "@types/node": "^16.4.1",
+    "lerna": "^4.0.0",
+    "typescript": "^4.3.5",
+    "rimraf": "^3.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.28.4",
+    "@typescript-eslint/parser": "^4.28.4",
+    "eslint": "^7.31.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^3.4.0",
+    "prettier": "^2.3.2"
+  }
+}

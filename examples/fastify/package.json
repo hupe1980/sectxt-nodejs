@@ -1,0 +1,19 @@
+{
+  "name": "fastify",
+  "version": "0.0.1",
+  "private": true,
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "scripts": {
+    "start": "ts-node-dev --respawn --transpile-only src/index.ts"
+  },
+  "dependencies": {
+    "fastify": "^3.19.2",
+    "fastify-plugin": "^3.0.0",
+    "sectxt": "^0.0.1"
+  },
+  "devDependencies": {
+    "ts-node-dev": "^1.1.8"
+  }
+}
