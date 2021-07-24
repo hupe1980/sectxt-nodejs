@@ -1,6 +1,6 @@
 {
   "name": "sectxt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A Node.js Security.txt implementation",
   "repository": "git@github.com:hupe1980/sectxt-nodejs.git",
   "license": "MIT",
