@@ -89,8 +89,8 @@ export interface SecurityTxtOptions {
 export class SecurityTxt {
   public readonly path: string;
   public readonly headers: Record<string, string>;
+  public readonly pathAlternative?: string;
 
-  private readonly pathAlternative?: string;
   private readonly fields = new Array<Field>();
 
   constructor(options: SecurityTxtOptions) {

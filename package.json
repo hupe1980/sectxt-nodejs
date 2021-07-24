@@ -10,7 +10,7 @@
   },
   "workspaces": [
     "examples/*",
-    "sectxt"
+    "packages/*"
   ],
   "devDependencies": {
     "@types/node": "^16.4.1",

@@ -1,0 +1,33 @@
+{
+  "name": "gatsby-plugin-sectxt",
+  "version": "0.2.0",
+  "description": "Gatsby plugin to create security.txt with sectxt",
+  "main": "index.js",
+  "license": "MIT",
+  "keywords": [
+    "sectxt",
+    "security.txt",
+    "securitytxt",
+    "gatsby",
+    "gatsby-plugin"
+  ],
+  "files": [
+    "lib",
+    "index.js",
+    "gatsby-node.js"
+  ],
+  "scripts": {
+    "build": "rimraf lib && tsc",
+    "watch": "rimraf lib && tsc -w",
+    "prepare": "yarn build && yarn test"
+  },
+  "peerDependencies": {
+    "gatsby": "^3.0.0"
+  },
+  "dependencies": {
+    "sectxt": "^0.2.0"
+  },
+  "devDependencies": {
+    "gatsby": "^3.10.1"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "gatsby",
+  "private": true,
+  "version": "0.2.0",
+  "license": "MIT",
+  "scripts": {
+    "build": "gatsby build",
+    "develop": "gatsby develop",
+    "start": "yarn develop",
+    "serve": "gatsby serve",
+    "clean": "gatsby clean"
+  },
+  "dependencies": {
+    "gatsby": "^3.10.1",
+    "gatsby-plugin-sectxt": "^0.2.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
