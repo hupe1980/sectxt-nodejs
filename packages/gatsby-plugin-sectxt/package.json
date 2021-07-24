@@ -2,6 +2,7 @@
   "name": "gatsby-plugin-sectxt",
   "version": "0.2.0",
   "description": "Gatsby plugin to create security.txt with sectxt",
+  "repository": "git@github.com:hupe1980/sectxt-nodejs.git",
   "main": "index.js",
   "license": "MIT",
   "keywords": [
