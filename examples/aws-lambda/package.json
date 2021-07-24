@@ -6,6 +6,7 @@
   "types": "lib/index.d.ts",
   "license": "MIT",
   "scripts": {
+    "build": "rimraf lib && tsc",
     "start": "rimraf ./lib && tsc && node -e \"require('./lib/index').handler().then(console.log);\""
   },
   "dependencies": {

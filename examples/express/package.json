@@ -6,6 +6,7 @@
   "types": "lib/index.d.ts",
   "license": "MIT",
   "scripts": {
+    "build": "rimraf lib && tsc",
     "start": "ts-node-dev --respawn --transpile-only src/index.ts"
   },
   "dependencies": {
