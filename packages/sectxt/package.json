@@ -15,7 +15,8 @@
     "fastify",
     "koa",
     "lambda",
-    "gatsby"
+    "gatsby",
+    "nextjs"
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
