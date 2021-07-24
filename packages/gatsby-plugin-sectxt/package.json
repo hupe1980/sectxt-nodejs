@@ -1,6 +1,6 @@
 {
   "name": "gatsby-plugin-sectxt",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Gatsby plugin to create security.txt with sectxt",
   "repository": "git@github.com:hupe1980/sectxt-nodejs.git",
   "main": "index.js",
@@ -26,7 +26,7 @@
     "gatsby": "^3.0.0"
   },
   "dependencies": {
-    "sectxt": "^0.2.0"
+    "sectxt": "^0.3.0"
   },
   "devDependencies": {
     "gatsby": "^3.10.1"
