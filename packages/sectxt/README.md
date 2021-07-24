@@ -83,7 +83,7 @@ app.listen(3000, () => {
 ```
 
 ## Gatsby
-See [gatsby-plugin-sectxt](https://github.com/hupe1980/sectxt-nodejs/tree/main/gatsby-plugin-sectxt).
+See [gatsby-plugin-sectxt](https://github.com/hupe1980/sectxt-nodejs/tree/main/packages/gatsby-plugin-sectxt).
 
 ## Examples
 See more complete [examples](https://github.com/hupe1980/sectxt-nodejs/tree/main/examples).

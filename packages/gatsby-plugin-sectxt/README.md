@@ -1,5 +1,5 @@
 # gatsby-plugin-sectxt
-> Gatsby plugin to create security.txt with [sectxt](https://github.com/hupe1980/sectxt-nodejs/tree/main/sectxt)
+> Gatsby plugin to create security.txt with [sectxt](https://github.com/hupe1980/sectxt-nodejs/tree/main/packages/sectxt)
 
 ## Installation
 ```bash
