@@ -34,5 +34,6 @@
     "jest": "^27.0.6",
     "supertest": "^6.1.4",
     "ts-jest": "^27.0.4"
-  }
+  },
+  "gitHead": "b989c0f4a82bedb40f9848fe9012dff7b7684fd0"
 }

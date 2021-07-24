@@ -20,7 +20,7 @@
   "scripts": {
     "build": "rimraf lib && tsc",
     "watch": "rimraf lib && tsc -w",
-    "prepare": "yarn build && yarn test"
+    "prepare": "yarn build"
   },
   "peerDependencies": {
     "gatsby": "^3.0.0"
@@ -30,5 +30,6 @@
   },
   "devDependencies": {
     "gatsby": "^3.10.1"
-  }
+  },
+  "gitHead": "b989c0f4a82bedb40f9848fe9012dff7b7684fd0"
 }
