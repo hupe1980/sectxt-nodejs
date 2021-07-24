@@ -43,4 +43,7 @@ export enum FieldName {
   CANONICAL = "Canonical",
   POLICY = "Policy",
   HIRING = "Hiring",
+  // custom
+  INTRO = "Intro",
+  OUTTRO = "Outtro",
 }

@@ -6,6 +6,8 @@ import { Encryption } from "./encryption";
 import { Expires } from "./expires";
 import { Field } from "./field";
 import { Hiring } from "./hiring";
+import { Intro } from "./intro";
+import { Outtro } from "./outtro";
 import { Policy } from "./policy";
 import { PreferredLanguages } from "./preferred-languages";
 
@@ -23,6 +25,9 @@ export interface SecurityTxtOptions {
    */
   readonly path?: string;
   readonly pathAlternative?: string;
+
+  readonly intro?: string;
+  readonly outtro?: string;
 
   /**
    * This field indicates an address that researchers should use for
@@ -96,6 +101,10 @@ export class SecurityTxt {
 
     this.pathAlternative = options.pathAlternative;
 
+    if (options.intro) {
+      this.fields.push(new Intro(options.intro));
+    }
+
     this.fields.push(new Contact(options.contacts));
     this.fields.push(new Expires(options.expires));
 
@@ -121,6 +130,10 @@ export class SecurityTxt {
 
     if (options.hiring) {
       this.fields.push(new Hiring(options.hiring));
+    }
+
+    if (options.outtro) {
+      this.fields.push(new Outtro(options.outtro));
     }
   }
 
