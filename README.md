@@ -13,6 +13,3 @@ This repository is a monorepo managed with [Lerna](https://github.com/lerna/lern
 
 ## License
 [MIT](LICENSE)
-## Documentation
-
-[Read the documentation](/sectxt/README.md).
