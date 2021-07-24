@@ -1,5 +1,5 @@
 # gatsby-plugin-sectxt
-![Build Status](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)
+[![Build Status](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)
 > Gatsby plugin to create security.txt with [sectxt](https://github.com/hupe1980/sectxt-nodejs/tree/main/packages/sectxt)
 
 ## Installation
