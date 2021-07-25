@@ -5,7 +5,7 @@ import { Canonical } from "./canonical";
 import { Contact } from "./contact";
 import { Encryption } from "./encryption";
 import { Expires, DateWithComment } from "./expires";
-import { Field, Value, ValueWithComment } from "./field";
+import { Field, FieldName, Value, ValueWithComment } from "./field";
 import { Hiring } from "./hiring";
 import { Intro } from "./intro";
 import { Outtro } from "./outtro";
@@ -24,17 +24,11 @@ export type Middleware = (
   next: NextFunction
 ) => Promise<void>;
 
-export interface SecurityTxtOptions {
-  /**
-   * @default /.well-known/security.txt
-   */
-  readonly path?: string;
-  readonly pathAlternative?: string;
+export interface FieldOptions {
+  readonly order?: FieldName[];
 
   readonly intro?: string;
   readonly outtro?: string;
-
-  readonly privateKey?: PrivateKey;
 
   /**
    * This field indicates an address that researchers should use for
@@ -92,6 +86,16 @@ export interface SecurityTxtOptions {
   readonly hiring?: Value[] | ValueWithComment[];
 }
 
+export interface SecurityTxtOptions extends FieldOptions {
+  /**
+   * @default /.well-known/security.txt
+   */
+  readonly path?: string;
+  readonly pathAlternative?: string;
+
+  readonly privateKey?: PrivateKey;
+}
+
 export class SecurityTxt {
   public readonly path: string;
   public readonly headers: Record<string, string>;
@@ -112,40 +116,8 @@ export class SecurityTxt {
 
     this.privateKey = options.privateKey;
 
-    if (options.intro) {
-      this.fields.push(new Intro(options.intro));
-    }
-
-    this.fields.push(new Contact(options.contacts));
-    this.fields.push(new Expires(options.expires));
-
-    if (options.encryptions) {
-      this.fields.push(new Encryption(options.encryptions));
-    }
-
-    if (options.acknowledgments) {
-      this.fields.push(new Acknowledgments(options.acknowledgments));
-    }
-
-    if (options.preferredLanguages) {
-      this.fields.push(new PreferredLanguages(options.preferredLanguages));
-    }
-
-    if (options.canonical) {
-      this.fields.push(new Canonical(options.canonical));
-    }
-
-    if (options.policy) {
-      this.fields.push(new Policy(options.policy));
-    }
-
-    if (options.hiring) {
-      this.fields.push(new Hiring(options.hiring));
-    }
-
-    if (options.outtro) {
-      this.fields.push(new Outtro(options.outtro));
-    }
+    const orderedFields = new OrderedFields(options);
+    this.fields = orderedFields.values();
   }
 
   public match(path: string): boolean {
@@ -211,5 +183,77 @@ export class SecurityTxt {
     });
 
     return signedMessage.toString();
+  }
+}
+
+export class OrderedFields {
+  private readonly order: Set<FieldName>;
+
+  constructor(private readonly options: FieldOptions) {
+    this.order = new Set(
+      this.options.order ?? [
+        FieldName.CONTACT,
+        FieldName.EXPIRES,
+        FieldName.ENCRYPTION,
+        FieldName.ACKNOWLEDGMENTS,
+        FieldName.PREFERRED_LANGUAGES,
+        FieldName.CANONICAL,
+        FieldName.POLICY,
+        FieldName.HIRING,
+      ]
+    );
+  }
+
+  public values(): Field[] {
+    const fields = new Array<Field>();
+
+    if (this.options.intro) {
+      fields.push(new Intro(this.options.intro));
+    }
+
+    Array.from(this.order).forEach((fieldName) => {
+      switch (fieldName) {
+        case FieldName.CONTACT:
+          return fields.push(new Contact(this.options.contacts));
+        case FieldName.EXPIRES:
+          return fields.push(new Expires(this.options.expires));
+        case FieldName.ENCRYPTION:
+          return (
+            this.options.encryptions &&
+            fields.push(new Encryption(this.options.encryptions))
+          );
+        case FieldName.ACKNOWLEDGMENTS:
+          return (
+            this.options.acknowledgments &&
+            fields.push(new Acknowledgments(this.options.acknowledgments))
+          );
+        case FieldName.PREFERRED_LANGUAGES:
+          return (
+            this.options.preferredLanguages &&
+            fields.push(new PreferredLanguages(this.options.preferredLanguages))
+          );
+        case FieldName.CANONICAL:
+          return (
+            this.options.canonical &&
+            fields.push(new Canonical(this.options.canonical))
+          );
+        case FieldName.POLICY:
+          return (
+            this.options.policy && fields.push(new Policy(this.options.policy))
+          );
+        case FieldName.HIRING:
+          return (
+            this.options.hiring && fields.push(new Hiring(this.options.hiring))
+          );
+        default:
+          throw new Error(`Unknown fieldName ${fieldName} in order.`);
+      }
+    });
+
+    if (this.options.outtro) {
+      fields.push(new Outtro(this.options.outtro));
+    }
+
+    return fields;
   }
 }

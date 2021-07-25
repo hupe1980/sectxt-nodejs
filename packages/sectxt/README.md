@@ -2,6 +2,13 @@
 [![Build Status](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)
 > A Node.js Security.txt implementation
 
+Features:
+* Middleware
+* Intro / Outtro
+* Comments
+* Custom ordering
+* Signing
+
 References:
 * [security.txt RFC](https://tools.ietf.org/html/draft-foudil-securitytxt)
 * [security.txt project on github](https://github.com/securitytxt/security-txt)
@@ -32,6 +39,29 @@ Preferred-Languages: en, de
 Hiring: https://secjobs.example.org
 ```
 
+### Intro / Outtro
+```typescript
+import { SecurityTxt } from "sectxt";
+
+const securityTxt = new SecurityTxt({
+  intro: "Intro",
+  contacts: ["mailto:security@example.org"],
+  expires: new Date("2019-01-16"),
+  outtro: "Outtro",
+});
+
+console.log(await securityTxt.render());
+```
+outputs:
+```
+# Intro
+
+Contact: mailto:security@example.org
+Expires: 2019-01-16T00:00:00.000Z
+
+# Outtro
+```
+
 ### Adding comments
 ```typescript
 import { SecurityTxt } from "sectxt";
@@ -55,6 +85,30 @@ Contact: mailto:security@example.org
 Expires: 2019-01-16T00:00:00.000Z
 Preferred-Languages: en, de
 Hiring: https://secjobs.example.org
+```
+
+### Field ordering
+```typescript
+import { SecurityTxt, FieldName } from "sectxt";
+
+const securityTxt = new SecurityTxt({
+  intro: "Intro",
+  contacts: ["mailto:security@example.org"],
+  expires: new Date("2019-01-16"),
+  outtro: "Outtro",
+  order: [FieldName.EXPIRES, FieldName.CONTACT],
+});
+
+console.log(await securityTxt.render());
+```
+outputs:
+```
+# Intro
+
+Expires: 2019-01-16T00:00:00.000Z
+Contact: mailto:security@example.org
+
+# Outtro
 ```
 
 ### Signed security.txt

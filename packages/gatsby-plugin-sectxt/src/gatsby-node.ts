@@ -13,6 +13,7 @@ export const onPostBootstrap: GatsbyNode["onPostBootstrap"] = async (
   });
 
   activity.start();
+
   const securityTxt = new SecurityTxt(
     pluginOptions as unknown as SecurityTxtOptions
   );

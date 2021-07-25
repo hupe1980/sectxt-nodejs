@@ -3,6 +3,7 @@ import request from "supertest";
 import * as openpgp from "openpgp";
 
 import { SecurityTxt } from "../security-txt";
+import { FieldName } from "../field";
 import { privateKeyArmored, publicKeyArmored } from "./gnupg";
 
 describe("security-txt", () => {
@@ -104,5 +105,24 @@ Hiring: https://secjobs.example.org
 
     // throws on invalid signature
     expect(async () => await verified).not.toThrow();
+  });
+
+  test("order", async () => {
+    expect.assertions(1);
+
+    const securityTxt = new SecurityTxt({
+      intro: "Intro",
+      contacts: ["mailto:security@example.org"],
+      expires: new Date("2019-01-16"),
+      outtro: "Outtro",
+      order: [FieldName.EXPIRES, FieldName.CONTACT],
+    });
+
+    expect(await securityTxt.render()).toBe(`# Intro
+
+Expires: 2019-01-16T00:00:00.000Z
+Contact: mailto:security@example.org
+
+# Outtro`);
   });
 });
