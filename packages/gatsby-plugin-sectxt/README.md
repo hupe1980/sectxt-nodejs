@@ -2,6 +2,9 @@
 [![Build Status](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)](https://github.com/hupe1980/sectxt-nodejs/workflows/ci/badge.svg)
 > Gatsby plugin to create security.txt with [sectxt](https://github.com/hupe1980/sectxt-nodejs/tree/main/packages/sectxt)
 
+References:
+* [security.txt RFC](https://tools.ietf.org/html/draft-foudil-securitytxt)
+* [security.txt project on github](https://github.com/securitytxt/security-txt)
 ## Installation
 ```bash
 yarn add gatsby-plugin-sectxt
