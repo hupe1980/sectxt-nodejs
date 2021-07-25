@@ -7,7 +7,7 @@ This repository is a monorepo managed with [Lerna](https://github.com/lerna/lern
 
 | Package                                                  | Description                                                          |
 | -------------------------------------------------------- | -------------------------------------------------------------------- |
-| [sectxt](/packages/sectxt)         | A Node.js Security.txt implementation development                                     |
+| [sectxt](/packages/sectxt)         | A Node.js Security.txt implementation                                    |
 | [gatsby-plugin-sectxt](/packages/gatsby-plugin-sectxt) | Gatsby plugin to create security.txt with sectxt
 
 
