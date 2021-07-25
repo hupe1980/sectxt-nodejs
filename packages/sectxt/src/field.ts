@@ -6,7 +6,7 @@ export interface ValueWithComment {
 }
 
 export abstract class Field {
-  constructor(public readonly name: FieldName) {}
+  constructor(public readonly name: FieldName | CustomFieldName) {}
 
   public abstract render(): string;
 
@@ -43,7 +43,9 @@ export enum FieldName {
   CANONICAL = "Canonical",
   POLICY = "Policy",
   HIRING = "Hiring",
-  // custom
+}
+
+export enum CustomFieldName {
   INTRO = "Intro",
   OUTTRO = "Outtro",
 }

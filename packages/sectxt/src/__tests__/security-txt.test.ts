@@ -44,6 +44,27 @@ describe("security-txt", () => {
     expect(redirect.headers["location"]).toBe(securityTxt.path);
   });
 
+  test("render", async () => {
+    expect.assertions(1);
+
+    const securityTxt = new SecurityTxt({
+      intro: "Intro",
+      contacts: ["mailto:security@example.org"],
+      expires: new Date("2019-01-16"),
+      hiring: [{ comment: "Comment", value: "https://secjobs.example.org" }],
+      outtro: "Outtro",
+    });
+
+    expect(await securityTxt.render()).toBe(`# Intro
+
+Contact: mailto:security@example.org
+Expires: 2019-01-16T00:00:00.000Z
+# Comment
+Hiring: https://secjobs.example.org
+
+# Outtro`);
+  });
+
   test("sign", async () => {
     expect.assertions(2);
 

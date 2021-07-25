@@ -4,13 +4,17 @@ import { Acknowledgments } from "./acknowledgments";
 import { Canonical } from "./canonical";
 import { Contact } from "./contact";
 import { Encryption } from "./encryption";
-import { Expires } from "./expires";
-import { Field } from "./field";
+import { Expires, DateWithComment } from "./expires";
+import { Field, Value, ValueWithComment } from "./field";
 import { Hiring } from "./hiring";
 import { Intro } from "./intro";
 import { Outtro } from "./outtro";
 import { Policy } from "./policy";
-import { PreferredLanguages } from "./preferred-languages";
+import {
+  PreferredLanguages,
+  Tags,
+  TagsWithComment,
+} from "./preferred-languages";
 
 export type NextFunction = () => void;
 
@@ -38,13 +42,13 @@ export interface SecurityTxtOptions {
    * number and/or a web page with contact information. The "Contact"
    * field MUST always be present in a "security.txt" file.
    */
-  readonly contacts: string[];
+  readonly contacts: Value[] | ValueWithComment[];
 
   /**
    * This field indicates the date and time after which the data contained
    * in the "security.txt" file is considered stale and should not be used.
    */
-  readonly expires: Date;
+  readonly expires: Date | DateWithComment;
 
   /**
    * This field indicates an encryption key that security researchers
@@ -52,7 +56,7 @@ export interface SecurityTxtOptions {
    * field - instead the value of this field MUST be a URI pointing to a
    * location where the key can be retrieved.
    */
-  readonly encryptions?: string[];
+  readonly encryptions?: Value[] | ValueWithComment[];
 
   /**
    * This field indicates a link to a page where security researchers are
@@ -60,32 +64,32 @@ export interface SecurityTxtOptions {
    * security researchers that reported security vulnerabilities and
    * collaborated to remediate them.
    */
-  readonly acknowledgments?: string[];
+  readonly acknowledgments?: Value[] | ValueWithComment[];
 
   /**
    * This field can be used to indicate a set of natural languages that
    * are preferred when submitting security reports.
    */
-  readonly preferredLanguages?: string[];
+  readonly preferredLanguages?: Tags | TagsWithComment;
 
   /**
    * This field indicates the canonical URIs where the "security.txt" file
    * is located, which is usually something like "https://example.com/.well-known/security.txt".
    */
-  readonly canonical?: string[];
+  readonly canonical?: Value[] | ValueWithComment[];
 
   /**
    * This field indicates a link to where the vulnerability disclosure
    * policy is located. This can help security researchers understand the
    * organization's vulnerability reporting practices.
    */
-  readonly policy?: string[];
+  readonly policy?: Value[] | ValueWithComment[];
 
   /**
    * The "Hiring" field is used for linking to the vendor's security-
    * related job positions.
    */
-  readonly hiring?: string[];
+  readonly hiring?: Value[] | ValueWithComment[];
 }
 
 export class SecurityTxt {

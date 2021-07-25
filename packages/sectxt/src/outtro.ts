@@ -1,11 +1,11 @@
-import { Field, FieldName } from "./field";
+import { Field, CustomFieldName } from "./field";
 
 export class Outtro extends Field {
   constructor(private readonly comment: string) {
-    super(FieldName.OUTTRO);
+    super(CustomFieldName.OUTTRO);
   }
 
   public render(): string {
-    return `${this.renderComment(this.comment)}`;
+    return `\n${this.renderComment(this.comment)}`;
   }
 }
