@@ -1,7 +1,7 @@
 {
   "name": "gatsby",
   "private": true,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
@@ -12,7 +12,7 @@
   },
   "dependencies": {
     "gatsby": "^3.10.1",
-    "gatsby-plugin-sectxt": "^0.6.0",
+    "gatsby-plugin-sectxt": "^0.7.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1"
   }
